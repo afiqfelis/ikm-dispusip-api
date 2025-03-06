@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pertanyaan;
-use App\Models\Unsur;
 use Illuminate\Http\Request;
 
 class PertanyaanController extends Controller
@@ -11,8 +10,22 @@ class PertanyaanController extends Controller
     // Menampilkan semua pertanyaan
     public function index()
     {
-        $pertanyaans = Pertanyaan::all();
-        return response()->json($pertanyaans);
+        // Ambil semua pertanyaan beserta relasi unsur
+        $pertanyaan = Pertanyaan::with('unsur')->get();
+
+        // Format ulang data sesuai kebutuhan
+        $formattedData = $pertanyaan->map(function ($item) {
+            return [
+                'id_pertanyaan' => $item->id_pertanyaan,
+                'pertanyaan' => $item->pertanyaan,
+                'unsur' => $item->unsur ? [
+                    'id_unsur' => $item->unsur->id_unsur,
+                    'unsur' => $item->unsur->unsur,
+                ] : null, // Handle jika unsur tidak ada
+            ];
+        });
+
+        return response()->json($formattedData);
     }
 
     // Menambah pertanyaan baru
@@ -20,7 +33,7 @@ class PertanyaanController extends Controller
     {
         $validated = $request->validate([
             'pertanyaan' => 'required|string',
-            'unsur_id_unsur' => 'required|exists:unsur,id_unsur',
+            'id_unsur' => 'required|exists:unsur,id_unsur',
         ]);
 
         $pertanyaan = Pertanyaan::create($validated);

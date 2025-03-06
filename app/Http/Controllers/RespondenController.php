@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class RespondenController extends Controller
 {
     // Rekaptulasi responden per unit layanan
-    public function rekaptulasi(Request $request)
+    public function responden(Request $request)
     {
         $validated = $request->validate([
             'unit_id' => 'required|exists:unit,id_unit',

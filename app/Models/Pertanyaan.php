@@ -10,5 +10,10 @@ class Pertanyaan extends Model
     use HasFactory;
 
     protected $table = 'pertanyaan';
-    protected $fillable = ['pertanyaan', 'unsur_id_unsur'];
+    protected $fillable = ['pertanyaan', 'id_unsur']; 
+    
+    public function unsur()
+    {
+        return $this->belongsTo(Unsur::class, 'id_unsur', 'id_unsur');
+    }
 }
