@@ -18,10 +18,15 @@ class JawabanController extends Controller
         $validated = $request->validate([
             'deskripsi' => 'required|string',
             'nilai_jawaban' => 'required|numeric',
-            'jawaban' => 'required|exists:pertanyaan,id_pertanyaan',
+            'id_pertanyaan' => 'required|exists:pertanyaan,id_pertanyaan', // Perbaiki dari 'jawaban' ke 'id_pertanyaan'
         ]);
 
         $jawaban = Jawaban::create($validated);
         return response()->json($jawaban, 201);
     }   
+    public function destroyByPertanyaan($id_pertanyaan)
+    {
+        Jawaban::where('id_pertanyaan', $id_pertanyaan)->delete();
+        return response()->json(null, 204); // No Content
+    }
 }

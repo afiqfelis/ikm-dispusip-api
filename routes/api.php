@@ -33,15 +33,20 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/unit', [App\Http\Controllers\UnitController::class, 'index']);
     Route::post('/unit/store', [App\Http\Controllers\UnitController::class, 'store']);
+    Route::put('/unit/update/{id_unit}', [App\Http\Controllers\UnitController::class, 'update']); // Route untuk update
+    Route::delete('/unit/delete/{id_unit}', [App\Http\Controllers\UnitController::class, 'destroy']); // Route untuk delete
     
     Route::get('/unsur', [App\Http\Controllers\UnsurController::class, 'index']);
     Route::post('/unsur/store', [App\Http\Controllers\UnsurController::class, 'store']);
 
     Route::get('/pertanyaan', [App\Http\Controllers\PertanyaanController::class, 'index']);
     Route::post('/pertanyaan/store', [App\Http\Controllers\PertanyaanController::class, 'store']);
+    Route::put('/pertanyaan/update/{id_pertanyaan}', [App\Http\Controllers\PertanyaanController::class, 'update']); // Route untuk update
+    Route::delete('/pertanyaan/delete/{id_pertanyaan}', [App\Http\Controllers\PertanyaanController::class, 'destroy']); // Route untuk delete
 
     Route::get('/jawaban', [App\Http\Controllers\JawabanController::class, 'index']);
     Route::post('/jawaban/store', [App\Http\Controllers\JawabanController::class, 'store']);
+    Route::delete('/jawaban/delete-by-pertanyaan/{id_pertanyaan}', [App\Http\Controllers\JawabanController::class, 'destroyByPertanyaan']);
 
 
 
